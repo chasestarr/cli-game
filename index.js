@@ -36,7 +36,9 @@ function updateBoard(index) {
   turn = turn ? 0 : 1;
 
   // will be refactored into displayBoard function
-  console.log(board);
+  console.log(board[0]);
+  console.log(board[1]);
+  console.log(board[2]);
 }
 
 function initBoard(n, m) {
@@ -52,6 +54,24 @@ function initBoard(n, m) {
     output.push(row);
   }
   return output;
+}
+
+function checkBoard() {
+  checkRows();
+  checkColumns();
+  checkDiagonals();
+}
+
+function checkRows() {
+
+}
+
+function checkColumns() {
+
+}
+
+function checkDiagonals() {
+
 }
 
 function displayBoard() {
