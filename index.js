@@ -36,9 +36,11 @@ function updateBoard(index) {
   turn = turn ? 0 : 1;
 
   // will be refactored into displayBoard function
-  console.log(board[0]);
-  console.log(board[1]);
-  console.log(board[2]);
+  board.forEach(row => {
+    console.log(row);
+  });
+
+  checkBoard();
 }
 
 function initBoard(n, m) {
@@ -57,13 +59,22 @@ function initBoard(n, m) {
 }
 
 function checkBoard() {
-  checkRows();
+  console.log(checkRows());
   checkColumns();
   checkDiagonals();
 }
 
 function checkRows() {
-
+  // not working currently...
+  let output = false;
+  board.forEach(row => {
+    let match = row[0];
+    console.log(match);
+    output = row.reduce((p, c) => {
+      return p && c === match;
+    }, false);
+  });
+  return output;
 }
 
 function checkColumns() {
