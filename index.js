@@ -3,7 +3,7 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', readInput); // handles data input
 
 let board;
-let turn = 0;
+let turn = 'O';
 
 const boardMap = {};
 
@@ -28,28 +28,29 @@ function updateBoard(index) {
   const n = boardMap[index][0];
   const m = boardMap[index][1];
 
-  if (board[n][m] !== 0) {
+  if (isNaN(board[n][m])) {
     console.log('that space is taken, please choose again');
     return;
   }
-  board[n][m] = turn ? 'X' : 'O';
-  turn = turn ? 0 : 1;
+
+  board[n][m] = turn; 
 
   // will be refactored into displayBoard function
   board.forEach(row => {
     console.log(row);
   });
 
-  checkBoard();
+  checkBoard(n, m, turn);
+  turn = turn === 'O' ? 'X' : 'O';
 }
 
-function initBoard(n, m) {
+function initBoard(n) {
   let output = [];
   let counter = 1
   for (let i = 0; i < n; i++) {
     let row = [];
-    for (let j = 0; j < m; j++) {
-      row.push(0);
+    for (let j = 0; j < n; j++) {
+      row.push(counter);
       boardMap[counter] = [i, j];
       counter++
     }
@@ -58,34 +59,33 @@ function initBoard(n, m) {
   return output;
 }
 
-function checkBoard() {
-  console.log(checkRows());
-  checkColumns();
-  checkDiagonals();
+function checkBoard(n, m, player) {
+  let counts = {
+    row: 0,
+    column: 0,
+    majorDiagonal: 0,
+    minorDiagonal: 0
+  };
+
+  for (let i = 0; i < board.length; i++) {
+    if (board[n][i] === player) counts.row++;
+    if (board[i][m] === player) counts.column++;
+    if (board[i][i] === player) counts.majorDiagonal++;
+    if (board[i][board.length - 1 - i] === player) counts.minorDiagonal++;
+  }
+
+  for(let c in counts) {
+    if (counts[c] === board.length) 
+      win(player);
+  }
 }
 
-function checkRows() {
-  // not working currently...
-  let output = false;
-  board.forEach(row => {
-    let match = row[0];
-    console.log(match);
-    output = row.reduce((p, c) => {
-      return p && c === match;
-    }, false);
-  });
-  return output;
+function win(player) {
+  console.log(`player ${player} wins!`);
+  process.exit();
 }
 
-function checkColumns() {
-
-}
-
-function checkDiagonals() {
-
-}
-
-function displayBoard() {
+function displayRow() {
   console.log(`\n 1 | 2 | 3 \n` + `-----------\n` + ` 4 | 5 | 6 \n` + `-----------\n` + ` 7 | 8 | 9 \n`);
   // let string = '';
   // for (let i = 0; i < board.length; i++) {
@@ -94,9 +94,9 @@ function displayBoard() {
 }
 
 function init() {
-  board = initBoard(3, 3); //initialize 3 x 3 board
+  board = initBoard(3); //initialize 3 x 3 board
   console.log(boardMap);
-  displayBoard();
+  displayRow();
 }
 
 init();
