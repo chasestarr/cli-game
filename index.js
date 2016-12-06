@@ -35,11 +35,7 @@ function updateBoard(index) {
 
   board[n][m] = turn; 
 
-  // will be refactored into displayBoard function
-  board.forEach(row => {
-    console.log(row);
-  });
-
+  displayBoard();
   checkBoard(n, m, turn);
   turn = turn === 'O' ? 'X' : 'O';
 }
@@ -85,18 +81,33 @@ function win(player) {
   process.exit();
 }
 
-function displayRow() {
-  console.log(`\n 1 | 2 | 3 \n` + `-----------\n` + ` 4 | 5 | 6 \n` + `-----------\n` + ` 7 | 8 | 9 \n`);
-  // let string = '';
-  // for (let i = 0; i < board.length; i++) {
+function displayBoard() {
+  console.log();
+  for (let i = 0; i < board.length; i++) {
+    displayRow(board[i]);
 
-  // }
+    if (i < board.length - 1) {
+      console.log('-----------');
+    }
+  }
+  console.log();
+}
+
+function displayRow(row) {
+  let str = ''
+  for (let i = 0; i < row.length; i++) {
+    str += ` ${row[i]} `;
+
+    if (i < row.length - 1) {
+      str += '|';
+    }
+  }
+
+  console.log(str);
 }
 
 function init() {
   board = initBoard(3); //initialize 3 x 3 board
-  console.log(boardMap);
-  displayRow();
 }
 
 init();
