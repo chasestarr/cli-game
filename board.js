@@ -47,7 +47,7 @@ board.prototype.check = function(n, m, player) {
     if (this.storage[n][i] === player) counts.row++;
     if (this.storage[i][m] === player) counts.column++;
     if (this.storage[i][i] === player) counts.majorDiagonal++;
-    if (this.storage[i][board.length - 1 - i] === player) counts.minorDiagonal++;
+    if (this.storage[i][this.size - 1 - i] === player) counts.minorDiagonal++;
   }
 
   for(let c in counts) {
