@@ -1,5 +1,5 @@
 const Board = require('./board.js');
-
+const size = process.argv[2] || 3;
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', readInput); // handles data input
@@ -42,7 +42,7 @@ function error(i) {
 }
 
 function init() {
-  board = new Board(3);
+  board = new Board(size);
   board.display();
 }
 
